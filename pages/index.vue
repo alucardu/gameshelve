@@ -22,6 +22,20 @@
         >
           GitHub
         </a>
+        <a
+          @click="$auth.loginWith('google')"
+          class="button--grey"
+        >
+          Login with Google
+        </a>
+        <a
+          @click="$auth.logout()"
+          class="button--grey"
+        >
+          Logout
+        </a><br>
+        Logged in: {{ $auth.loggedIn }}<br>
+        Logged user: {{ $auth.user }}
       </div>
     </div>
   </div>

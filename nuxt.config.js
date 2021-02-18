@@ -18,6 +18,17 @@ export default {
     ]
   },
 
+  auth: {
+    strategies: {
+      google: {
+        clientId: '625050273046-8nvipki8k01tvg576nd59r0ut5dl7663.apps.googleusercontent.com',
+        scope: ['profile', 'email'],
+        codeChallengeMethod: '',
+        responseType: 'token id_token'
+      },
+    }
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -37,6 +48,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
