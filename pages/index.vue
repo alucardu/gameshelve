@@ -34,15 +34,48 @@
         >
           Logout
         </a><br>
-        Logged in: {{ $auth.loggedIn }}<br>
-        Logged user: {{ $auth.user }}
+        Logged user: {{ $auth.user ? $auth.user.given_name : '' }}<br>
+        <Filepond />
+        <div v-for="(image, n) of images" :key="n">
+          <img :src="baseUrl + image.Key" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import listImages from '~/mixins/listImages.js'
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'HomePage',
+  mixins: [listImages ],
+  data() {
+    return {
+      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
+      images: []
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      gallery: 'gallery/getGallery',
+    })
+  },
+
+  watch: {
+    gallery: {
+      handler (gallery) {
+        this.images = gallery
+      }
+    }
+  },
+
+  mounted() {
+    this.listImages()
+  }
+}
 </script>
 
 <style>
