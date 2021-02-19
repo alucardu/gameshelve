@@ -31,13 +31,6 @@ const FilePond = vueFilePond(
   FilePondPluginImagePreview
 );
 
-const config = {
-    bucketName: 'gamesnap',
-    region: 'eu-central-1',
-    accessKeyId: process.env.AWS_ACCESSKEYID,
-    secretAccessKey: process.env.AWS_SECRETKEYACCESS
-}
-
 export default {
   data: function() {
     return {

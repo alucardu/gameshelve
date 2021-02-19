@@ -5,10 +5,8 @@ export const state = () => ({
 export const mutations = {
   INITIALGALLERY (state, payload) {
     state.gallery = payload
-    console.log(state.gallery)
   },
   IMAGEUPLOADED (state, payload) {
-    console.log(state.gallery)
     state.gallery.push(payload)
   }
 }
