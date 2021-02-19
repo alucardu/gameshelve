@@ -34,8 +34,8 @@ const FilePond = vueFilePond(
 const config = {
     bucketName: 'gamesnap',
     region: 'eu-central-1',
-    accessKeyId: 'AKIA6EK4RNZKNIREPC7X',
-    secretAccessKey: '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',
+    accessKeyId: process.env.AWS_ACCESSKEYID,
+    secretAccessKey: process.env.AWS_SECRETKEYACCESS
 }
 
 export default {
