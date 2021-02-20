@@ -18,6 +18,10 @@ export default {
     ]
   },
 
+  env: {
+    baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/'
+  },
+
   auth: {
     strategies: {
       google: {
@@ -49,7 +53,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dotenv'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

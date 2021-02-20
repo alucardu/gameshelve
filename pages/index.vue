@@ -84,11 +84,4 @@ export default {
 .links {
   padding-top: 15px;
 }
-
-img {
-  height: 20%;
-  width: 20%;
-  margin-bottom: 20px;
-  float: left;
-}
 </style>

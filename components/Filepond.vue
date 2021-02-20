@@ -20,12 +20,20 @@
 </template>
 
 <script>
+import AWS from 'aws-sdk'
 import localforage from 'localforage';
 import vueFilePond from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+AWS.config.update({
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: process.env.IDENTITY_POOL_ID
+  }),
+  region: 'eu-central-1'
+});
 
 const FilePond = vueFilePond(
   FilePondPluginFileValidateType,
@@ -73,7 +81,7 @@ export default {
     addImageToGallery () {
       localforage.getItem('myGallery').then((value) => {
           const myArray = value || []
-          myArray.push({ key: this.file.name})
+          myArray.push({ key: this.file.name })
           localforage.setItem('myGallery', myArray)
       }).catch(function(err) {
           console.log(err);

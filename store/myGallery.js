@@ -8,6 +8,9 @@ export const mutations = {
   },
   IMAGEADDED (state, payload) {
     state.myGallery.push(payload)
+  },
+  IMAGEREMOVED (state, payload) {
+    state.myGallery = payload
   }
 }
 
@@ -24,5 +27,8 @@ export const actions = {
   },
   imageAdded ({ commit}, payload) {
     commit('IMAGEADDED', payload)
+  },
+  imageRemoved ({ commit }, payload) {
+    commit('IMAGEREMOVED', payload)
   }
 }
