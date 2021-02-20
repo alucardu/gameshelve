@@ -4,19 +4,23 @@
     v-on:mouseleave='hover = false'
     class="c-gameImage"
   >
-    <img :src="baseUrl + game.key">
+    <img :src="baseUrl + game.Key">
     <div class="overlay" v-if="hover">
-      <button @click="removeGameFromDashboard(game)">Remove</button>
+      <button v-if="galleryType === 'myGallery'" @click="removeGameFromDashboard(game)">Remove</button>
+      <button v-if="galleryType === 'globalGallery'" @click="addGametoDashboard(game)">Add</button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import localforage from 'localforage';
 
 export default {
   props: {
+    galleryType: {
+      type: String,
+      default: ''
+    },
     game: {
       type: Object,
       default: () => {}
@@ -46,6 +50,9 @@ export default {
   },
 
   methods: {
+    addGametoDashboard(game) {
+      this.$emit('add-game-to-dashboard', game)
+    },
     removeGameFromDashboard(game) {
       this.$emit('remove-game-from-dashboard', game)
     }

@@ -81,7 +81,7 @@ export default {
     addImageToGallery () {
       localforage.getItem('myGallery').then((value) => {
           const myArray = value || []
-          myArray.push({ key: this.file.name })
+          myArray.push({ Key: this.file.name })
           localforage.setItem('myGallery', myArray)
       }).catch(function(err) {
           console.log(err);

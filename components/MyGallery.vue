@@ -4,7 +4,8 @@
       v-for="(game, n) of myGallery"
       :key="n"
       :game="game"
-      v-on:remove-game-from-dashboard="removeGameFromDashboard(game.key)"
+      v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
+      galleryType="myGallery"
     />
   </div>
 </template>
@@ -12,6 +13,7 @@
 <script>
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -43,7 +45,7 @@ export default {
     removeGameFromDashboard (game) {
       const tempArray = [... this.myGallery]
       tempArray.forEach((item, index) => {
-        if (item.key === game) {
+        if (item.Key === game.Key) {
           tempArray.splice(index, 1)
           this.$store.dispatch('myGallery/imageRemoved', tempArray)
           localforage.setItem('myGallery', tempArray)
