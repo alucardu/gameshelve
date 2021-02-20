@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <img :src="baseUrl + image.key" v-for="(image, n) of myGallery" :key="n"/>
+  <div class="flex">
+    <GameImage
+      v-for="(game, n) of myGallery"
+      :key="n"
+      :game="game"
+      v-on:remove-game-from-dashboard="removeGameFromDashboard(game.key)"
+    />
   </div>
 </template>
 
@@ -10,7 +15,6 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
       myGallery: []
     }
   },
@@ -33,6 +37,20 @@ export default {
     localforage.getItem('myGallery').then((value) => {
       this.$store.dispatch('myGallery/initialGallery', value)
     })
+  },
+
+  methods: {
+    removeGameFromDashboard (game) {
+      const tempArray = [... this.myGallery]
+      tempArray.forEach((item, index) => {
+        if (item.key === game) {
+          tempArray.splice(index, 1)
+          this.$store.dispatch('myGallery/imageRemoved', tempArray)
+          localforage.setItem('myGallery', tempArray)
+          return
+        }
+      })
+    }
   }
 }
 </script>
