@@ -1,26 +1,12 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        gamesnap
-      </h1>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
+          @click="showGlobalGallery = !showGlobalGallery"
           class="button--grey"
         >
-          GitHub
+          Show gallery
         </a>
         <a
           @click="$auth.loginWith('google')"
@@ -33,47 +19,23 @@
           class="button--grey"
         >
           Logout
-        </a><br>
-        Logged user: {{ $auth.user ? $auth.user.given_name : '' }}<br>
-        <Filepond />
-        <div v-for="(image, n) of images" :key="n">
-          <img :src="baseUrl + image.Key" />
-        </div>
+        </a>
       </div>
+      Logged user: {{ $auth.user ? $auth.user.given_name : '' }}<br>
+      <Filepond />
+      <MyGallery />
+      <GlobalGallery v-if="showGlobalGallery" />
     </div>
   </div>
 </template>
 
 <script>
-import listImages from '~/mixins/listImages.js'
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'HomePage',
-  mixins: [listImages ],
   data() {
     return {
-      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
-      images: []
+      showGlobalGallery: false
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      gallery: 'gallery/getGallery',
-    })
-  },
-
-  watch: {
-    gallery: {
-      handler (gallery) {
-        this.images = gallery
-      }
-    }
-  },
-
-  mounted() {
-    this.listImages()
   }
 }
 </script>
@@ -121,5 +83,12 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+img {
+  height: 20%;
+  width: 20%;
+  margin-bottom: 20px;
+  float: left;
 }
 </style>
