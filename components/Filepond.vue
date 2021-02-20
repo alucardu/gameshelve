@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import localforage from 'localforage';
 import vueFilePond from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
@@ -32,7 +33,7 @@ const FilePond = vueFilePond(
 );
 
 export default {
-  data: function() {
+  data() {
     return {
       myFiles: [],
       images: [],
@@ -60,12 +61,23 @@ export default {
 
       promise.then(
         (data) => {
-          this.$store.dispatch('gallery/imageUploaded', data)
+          this.$store.dispatch('myGallery/imageAdded', data)
+          this.addImageToGallery()
         },
         (err) => {
           console.log("There was an error uploading your photo: ", err);
         }
       );
+    },
+
+    addImageToGallery () {
+      localforage.getItem('myGallery').then((value) => {
+          const myArray = value || []
+          myArray.push({ key: this.file.name})
+          localforage.setItem('myGallery', myArray)
+      }).catch(function(err) {
+          console.log(err);
+      });
     }
   }
 

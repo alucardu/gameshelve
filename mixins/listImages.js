@@ -17,7 +17,7 @@ export default {
     listImages () {
       s3.listObjectsV2( (err, data) => {
         if (err) {
-          console.log("Error: " , err);
+          console.log("ERROR: " , err);
         } else {
           this.$store.dispatch('gallery/initialGallery', data.Contents)
         }
