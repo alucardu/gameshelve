@@ -1,12 +1,24 @@
 <template>
   <div>
-    <img :src="baseUrl + image.Key" v-for="(image, n) of gallery" :key="n"/>
+    <input
+      type="text"
+      v-on:keyup='fetchGames($event.target.value)'
+    />
+    <GameImage
+      v-for="(game, n) of filteredGallery"
+      :key="n"
+      :game="game"
+      v-on:add-game-to-dashboard="addGametoDashboard(game)"
+      galleryType="globalGallery"
+    />
   </div>
 </template>
 
 <script>
 import listImages from '~/mixins/listImages.js'
+import localforage from 'localforage';
 import { mapGetters } from 'vuex'
+import { debounce } from 'lodash';
 
 export default {
   name: 'GlobalGallery',
@@ -14,7 +26,8 @@ export default {
   data() {
     return {
       gallery: [],
-      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/'
+      filteredGallery: [],
+      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
     }
   },
 
@@ -28,9 +41,48 @@ export default {
     GalleryStore: {
       handler (GalleryStore) {
         this.gallery = GalleryStore
-        console.log(this.gallery)
       }
     }
+  },
+
+  methods: {
+
+    addGametoDashboard(game) {
+      this.addImageToGallery(game)
+    },
+
+    addImageToGallery (game) {
+      localforage.getItem('myGallery').then((value) => {
+        let myArray = value || []
+
+        if (!this.checkIfGameIsDuplicate(myArray, game)) {
+          this.$store.dispatch('myGallery/imageAdded', game)
+          myArray.push({ Key: game.Key })
+          localforage.setItem('myGallery', myArray)
+        } else {
+          console.log('game already added')
+        }
+      }).catch(function(err) {
+        console.log(err);
+      });
+    },
+
+    checkIfGameIsDuplicate (games, game) {
+      console.log(games, game)
+      for (const item of games) {
+        if (item.Key === game.Key) return true
+      }
+      return false
+    },
+
+    fetchGames: debounce(function (searchQuery) {
+      if (searchQuery.length <= 0) {
+        this.filteredGallery = []
+        return
+      }
+      this.filteredGallery = this.gallery.map((item) => item)
+        .filter((item) => item.Key.includes(searchQuery))
+    }, 500)
   },
 
   mounted() {
@@ -40,5 +92,8 @@ export default {
 </script>
 
 <style>
-
+input {
+  background: grey;
+  color: white;
+}
 </style>
