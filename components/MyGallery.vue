@@ -1,18 +1,25 @@
 <template>
-  <div class="flex">
-    <GameImage
-      v-for="(game, n) of myGallery"
-      :key="n"
-      :game="game"
-      v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
-      galleryType="myGallery"
-    />
+  <div>
+    <div id="shelve" class="flex">
+      <GameImage
+        v-for="(game, n) of myGallery"
+        :key="n"
+        :game="game"
+        v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
+        galleryType="myGallery"
+      />
+    </div>
+    <button @click="toImage()">Export shelve</button><br>
+    <button @click="shelveExample()">Example shelve</button>
+    <div id="here-appear-theimages" />
   </div>
 </template>
 
 <script>
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 export default {
   data() {
@@ -52,11 +59,31 @@ export default {
           return
         }
       })
+    },
+
+    shelveExample() {
+      domtoimage.toPng(document.getElementById('shelve'))
+        .then(dataUrl => {
+          var img = new Image();
+          img.src = dataUrl;
+          document.getElementById('here-appear-theimages').appendChild(img)
+        })
+    },
+
+    toImage() {
+      domtoimage.toPng(document.getElementById('shelve'))
+        .then(blob => {
+          saveAs(blob, 'my-node.png');
+        });
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+#shelve {
+  background: red;
+  height: 480px;
+}
 
 </style>
