@@ -68,7 +68,6 @@ export default {
     },
 
     checkIfGameIsDuplicate (games, game) {
-      console.log(games, game)
       for (const item of games) {
         if (item.Key === game.Key) return true
       }

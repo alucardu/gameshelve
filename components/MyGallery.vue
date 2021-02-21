@@ -1,13 +1,17 @@
 <template>
   <div>
-    <div id="shelve" class="flex">
-      <GameImage
-        v-for="(game, n) of myGallery"
-        :key="n"
-        :game="game"
-        v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
-        galleryType="myGallery"
-      />
+    <div id="shelve" class="flex flex-col">
+      <span>Games I want to play...</span>
+      <ul class="shelve-row">
+        <GameImage
+          v-for="(game, n) of myGallery"
+          :key="n"
+          :game="game"
+          v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
+          galleryType="myGallery"
+        />
+        <li />
+      </ul>
     </div>
     <button @click="toImage()">Export shelve</button><br>
     <button @click="shelveExample()">Example shelve</button>
@@ -84,8 +88,40 @@ export default {
 
 <style lang="scss">
 #shelve {
-  background: red;
-  height: 480px;
+  color: white;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background: black;
+}
+
+// .shelve-row {
+//   display: flex;
+//   flex-flow: row wrap;
+//   width: 100%;
+// }
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  margin: 4px;
+  height: 15vh;
+  flex-grow: 1;
+  position: relative;
+}
+
+li:last-child {
+  // There's no science in using "10" here. In all my testing, this delivered the best results.
+  flex-grow: 10;
+}
+
+img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
 }
 
 </style>
