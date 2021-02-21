@@ -65,7 +65,8 @@ export default {
     },
 
     shelveExample() {
-      domtoimage.toPng(document.getElementById('shelve'))
+      let options = { "cacheBust":true }
+      domtoimage.toPng(document.getElementById('shelve'), options)
         .then(dataUrl => {
           var img = new Image();
           img.src = dataUrl;
@@ -74,7 +75,8 @@ export default {
     },
 
     toImage() {
-      domtoimage.toPng(document.getElementById('shelve'))
+      let options = { "cacheBust":true }
+      domtoimage.toPng(document.getElementById('shelve'), options)
         .then(blob => {
           saveAs(blob, 'my-node.png');
         });
