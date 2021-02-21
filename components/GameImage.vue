@@ -1,5 +1,5 @@
 <template>
-  <div
+  <li
     v-on:mouseover='hover = true'
     v-on:mouseleave='hover = false'
     class="c-gameImage"
@@ -9,7 +9,7 @@
       <button v-if="galleryType === 'myGallery'" @click="removeGameFromDashboard(game)">Remove</button>
       <button v-if="galleryType === 'globalGallery'" @click="addGametoDashboard(game)">Add</button>
     </div>
-  </div>
+  </li>
 </template>
 
 <script>
@@ -61,11 +61,16 @@ export default {
 }
 </script>
 
-<style>
-.c-gameImage {
-  position: relative;
-  max-width: 20%;
-}
+<style lang="scss">
+// .c-gameImage {
+//   position: relative;
+//   img {
+//     flex: auto;
+//     height: 200px;
+//     margin: 0 8px 8px 0; /* Some gutter */
+//   }
+//   /* max-width: 20%; */
+// }
 .overlay {
   position: absolute;
   top: 0;
