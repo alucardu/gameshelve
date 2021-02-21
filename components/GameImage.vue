@@ -64,7 +64,7 @@ export default {
 <style>
 .c-gameImage {
   position: relative;
-  display: flex;
+  max-width: 20%;
 }
 .overlay {
   position: absolute;

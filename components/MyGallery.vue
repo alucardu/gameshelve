@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div id="shelve" class="flex">
-      <GameImage
-        v-for="(game, n) of myGallery"
-        :key="n"
-        :game="game"
-        v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
-        galleryType="myGallery"
-      />
+    <div id="shelve" class="flex flex-col">
+      <span>Games I want to play...</span>
+      <div class="shelve-row">
+        <GameImage
+          v-for="(game, n) of myGallery"
+          :key="n"
+          :game="game"
+          v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
+          galleryType="myGallery"
+        />
+      </div>
     </div>
     <button @click="toImage()">Export shelve</button><br>
     <button @click="shelveExample()">Example shelve</button>
@@ -82,8 +85,15 @@ export default {
 
 <style lang="scss">
 #shelve {
-  background: red;
+  color: white;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background: black;
   height: 480px;
+}
+
+.shelve-row {
+  display: flex;
 }
 
 </style>

@@ -140,7 +140,6 @@ export default {
   },
 
   mounted () {
-    console.log(this.GalleryStore.length === 0)
     this.GalleryStore.length === 0 ? this.listImages() : this.gallery = this.GalleryStore;
   },
 
