@@ -8,7 +8,7 @@
       v-for="(game, n) of filteredGallery"
       :key="n"
       :game="game"
-      v-on:add-game-to-dashboard="addGametoDashboard(game)"
+      v-on:add-game-to-dashboard="addGametoDashboard"
       galleryType="globalGallery"
     />
   </div>
@@ -47,24 +47,33 @@ export default {
 
   methods: {
 
-    addGametoDashboard(game) {
-      this.addImageToGallery(game)
+    addGametoDashboard(...args) {
+      const [game, type] = args
+      this.addImageToGallery(game, type)
     },
 
-    addImageToGallery (game) {
-      localforage.getItem('myGallery').then((value) => {
-        let myArray = value || []
-
-        if (!this.checkIfGameIsDuplicate(myArray, game)) {
-          this.$store.dispatch('myGallery/imageAdded', game)
-          myArray.push({ Key: game.Key })
-          localforage.setItem('myGallery', myArray)
+    addImageToGallery (game, type) {
+      localforage.getItem(this.returnOpositeType(type)).then((value) => {
+        if (this.checkIfGameIsDuplicate(value, game)) {
+          console.log('game already added to ' + this.returnOpositeType(type) + ' shelve')
         } else {
-          console.log('game already added')
+          localforage.getItem(type).then((value) => {
+            let myArray = value || []
+
+            if (!this.checkIfGameIsDuplicate(myArray, game)) {
+              this.$store.dispatch(type + '/imageAdded', game)
+              myArray.push({ Key: game.Key })
+              localforage.setItem(type, myArray)
+            } else {
+              console.log('game already added')
+            }
+            }).catch(function(err) {
+              console.log(err);
+            });
         }
-      }).catch(function(err) {
-        console.log(err);
-      });
+      })
+
+
     },
 
     checkIfGameIsDuplicate (games, game) {
@@ -81,7 +90,14 @@ export default {
       }
       this.filteredGallery = this.gallery.map((item) => item)
         .filter((item) => item.Key.includes(searchQuery))
-    }, 500)
+    }, 500),
+
+    returnOpositeType (type) {
+      switch (type) {
+        case 'myGallery': return 'wantToLearn'
+        case 'wantToLearn': return 'myGallery'
+      }
+    }
   },
 
   mounted() {

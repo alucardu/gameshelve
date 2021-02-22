@@ -18,6 +18,18 @@
         :disabled="file ? false : true"
       />
     </label>
+    <form id="myForm">
+      <fieldset>
+        <label>
+          Games I want to play:
+          <input type="radio" name="drone" value="myGallery" v-model="type" @click="toggleButton(gameName)" />
+        </label>
+        <label>
+          Games I want to learn:
+          <input type="radio" name="drone" value="wantToLearn" v-model="type" @click="toggleButton(gameName)" />
+        </label>
+      </fieldset>
+    </form>
     <button
       @click="upload()"
       class="button--grey"
@@ -56,6 +68,7 @@ export default {
   mixins: [listImages ],
   data() {
     return {
+      type: null,
       gameName: '',
       fileExtension: '',
       images: [],
@@ -77,7 +90,11 @@ export default {
         this.uploadDisabled = true
       } else {
         if (gameName && gameName.length > 3) {
-          this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
+          if (this.type) {
+            this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
+          } else {
+            console.log('select a type')
+          }
         } else {
           this.uploadDisabled = true
         }
@@ -105,8 +122,8 @@ export default {
 
       promise.then(
         (data) => {
-          this.$store.dispatch('myGallery/imageAdded', data)
           this.addImageToGallery()
+          this.$store.dispatch(this.type + '/imageAdded', data)
         },
         (err) => {
           console.log("There was an error uploading your photo: ", err);
@@ -115,12 +132,15 @@ export default {
     },
 
     addImageToGallery () {
-      localforage.getItem('myGallery').then((value) => {
-          const myArray = value || []
-          myArray.push({ Key: this.gameName + this.fileExtension })
-          localforage.setItem('myGallery', myArray)
+      localforage.getItem(this.type).then((value) => {
+        const myArray = value || []
+        myArray.push({ Key: this.gameName + this.fileExtension })
+        localforage.setItem(this.type, myArray)
+        this.$refs.pond.removeFiles()
+        this.gameName = ''
+        document.getElementById("myForm").reset()
       }).catch(function(err) {
-          console.log(err);
+        console.log(err);
       });
     }
   },

@@ -22,9 +22,13 @@
         </a>
       </div>
       Logged user: {{ $auth.user ? $auth.user.given_name : '' }}<br>
-      <Filepond />
-      <MyGallery />
       <GlobalGallery v-if="showGlobalGallery" />
+      <Filepond />
+      <div id="someGallery">
+        <MyGallery />
+        <WantToLearn />
+      </div>
+      <ExportShelve />
     </div>
   </div>
 </template>
@@ -52,7 +56,6 @@ export default {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
 }
 

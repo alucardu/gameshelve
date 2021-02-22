@@ -1,0 +1,28 @@
+<template>
+  <div>
+    <button @click="toImage()">Export shelve</button><br>
+    <div id="here-appear-theimages" />
+  </div>
+</template>
+
+<script>
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
+
+export default {
+  methods: {
+    toImage() {
+      let options = { "cacheBust":true }
+
+      domtoimage.toPng(document.getElementById('someGallery'), options)
+        .then(blob => {
+          saveAs(blob, 'my-node.png');
+        });
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+
+</style>

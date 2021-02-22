@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div id="shelve" class="flex flex-col">
-      <span>Games I want to play...</span>
+    <div id="wantToLearn" class="flex flex-col">
+      <span>Games I want to learn...</span>
       <ul class="shelve-row">
         <GameImage
           v-for="(game, n) of myGallery"
@@ -29,7 +29,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      myGalleryStore: 'myGallery/getGallery',
+      myGalleryStore: 'wantToLearn/getGallery',
     })
   },
 
@@ -42,8 +42,8 @@ export default {
   },
 
   mounted() {
-    localforage.getItem('myGallery').then((value) => {
-      this.$store.dispatch('myGallery/initialGallery', value || [])
+    localforage.getItem('wantToLearn').then((value) => {
+      this.$store.dispatch('wantToLearn/initialGallery', value || [])
     })
   },
 
@@ -53,8 +53,8 @@ export default {
       tempArray.forEach((item, index) => {
         if (item.Key === game.Key) {
           tempArray.splice(index, 1)
-          this.$store.dispatch('myGallery/imageRemoved', tempArray)
-          localforage.setItem('myGallery', tempArray)
+          this.$store.dispatch('wantToLearn/imageRemoved', tempArray)
+          localforage.setItem('wantToLearn', tempArray)
           return
         }
       })
@@ -64,11 +64,12 @@ export default {
 </script>
 
 <style lang="scss">
-#shelve {
+#wantToLearn {
   color: white;
-  margin-top: 12px;
+  margin-bottom: 12px;
   background: black;
 }
+
 // .shelve-row {
 //   display: flex;
 //   flex-flow: row wrap;
