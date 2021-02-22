@@ -3,7 +3,11 @@
     <input
       type="text"
       v-on:keyup='fetchGames($event.target.value)'
+      v-model="$v.searchQuery.$model"
     />
+    <div v-if="($v.searchQuery.$error)">
+      Your searchquery has to be at least 4 characters long
+    </div>
     <GameImage
       v-for="(game, n) of filteredGallery"
       :key="n"
@@ -19,16 +23,22 @@ import listImages from '~/mixins/listImages.js'
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
 import { debounce } from 'lodash';
+import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'GlobalGallery',
   mixins: [listImages ],
   data() {
     return {
+      searchQuery: '',
       gallery: [],
       filteredGallery: [],
       baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
     }
+  },
+
+  validations: {
+    searchQuery: { required, minLength: minLength(4) }
   },
 
   computed: {
@@ -46,7 +56,6 @@ export default {
   },
 
   methods: {
-
     addGametoDashboard(...args) {
       const [game, type] = args
       this.addImageToGallery(game, type)
@@ -72,8 +81,6 @@ export default {
             });
         }
       })
-
-
     },
 
     checkIfGameIsDuplicate (games, game) {
@@ -83,13 +90,16 @@ export default {
       return false
     },
 
-    fetchGames: debounce(function (searchQuery) {
-      if (searchQuery.length <= 0) {
+    fetchGames: debounce(function () {
+      if (this.searchQuery.length <= 0) {
         this.filteredGallery = []
         return
       }
-      this.filteredGallery = this.gallery.map((item) => item)
-        .filter((item) => item.Key.includes(searchQuery))
+
+      if (this.searchQuery.length > 3) {
+        this.filteredGallery = this.gallery.map((item) => item)
+          .filter((item) => item.Key.includes(this.searchQuery))
+      }
     }, 500),
 
     returnOpositeType (type) {

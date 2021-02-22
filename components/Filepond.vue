@@ -8,35 +8,52 @@
       @addfile="setFile"
       @removefile="toggleButton()"
     />
-    <label>
-      Name has to be more than 3 characters long.
-      <input
-        type="text"
-        placeholder="name of the game"
-        v-on:keyup='toggleButton($event.target.value)'
-        v-model="gameName"
-        :disabled="file ? false : true"
-      />
-    </label>
     <form id="myForm">
-      <fieldset>
-        <label>
-          Games I want to play:
-          <input type="radio" name="drone" value="myGallery" v-model="type" @click="toggleButton(gameName)" />
-        </label>
-        <label>
-          Games I want to learn:
-          <input type="radio" name="drone" value="wantToLearn" v-model="type" @click="toggleButton(gameName)" />
-        </label>
-      </fieldset>
+      <label>
+        <input
+          type="text"
+          placeholder="name of the game"
+          v-on:keyup='toggleButton($event.target.value)'
+          v-model="$v.gameForm.gameName.$model"
+          :disabled="file ? false : true"
+        /><br>
+        <br>
+        <div v-if="($v.gameForm.gameName.$error)">
+          <span v-if="!$v.gameForm.gameName.required">A name is required to upload the file.</span>
+          <span v-if="!$v.gameForm.gameName.minLength">Name has to be more than 3 characters long.</span>
+        </div>
+      </label>
+      <label>
+        Games I want to play:
+        <input
+          type="radio"
+          name="drone"
+          value="myGallery"
+          v-model="gameForm.type"
+          @click="toggleButton(gameName)"
+        />
+      </label>
+      <label>
+        Games I want to learn:
+        <input
+          type="radio"
+          name="drone"
+          value="wantToLearn"
+          v-model="gameForm.type"
+          @click="toggleButton(gameName)"
+        />
+      </label>
+      <div v-if="(!$v.gameForm.type.required)">
+        Please select a type
+      </div>
+      <button
+        @click="upload()"
+        class="button--grey"
+        :disabled="uploadDisabled"
+      >
+        Upload
+      </button>
     </form>
-    <button
-      @click="upload()"
-      class="button--grey"
-      :disabled="uploadDisabled"
-    >
-      Upload
-    </button>
   </div>
 </template>
 
@@ -51,6 +68,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import { debounce } from 'lodash';
 import { mapGetters } from 'vuex';
 import listImages from '~/mixins/listImages.js';
+
+import { required, minLength } from 'vuelidate/lib/validators'
 
 AWS.config.update({
   credentials: new AWS.CognitoIdentityCredentials({
@@ -68,6 +87,10 @@ export default {
   mixins: [listImages ],
   data() {
     return {
+      gameForm: {
+        gameName: '',
+        type: undefined
+      },
       type: null,
       gameName: '',
       fileExtension: '',
@@ -75,6 +98,13 @@ export default {
       uploadDisabled: true,
       file: null,
       gallery: [],
+    }
+  },
+
+  validations: {
+    gameForm: {
+      gameName: { required, minLength: minLength(4) },
+      type: { required }
     }
   },
   methods: {

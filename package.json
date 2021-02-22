@@ -22,7 +22,8 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "nuxt": "^2.14.12",
-    "vue-filepond": "^6.0.0"
+    "vue-filepond": "^6.0.0",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^3.4.2",
