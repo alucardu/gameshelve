@@ -7,7 +7,10 @@
     <img :src="baseUrl + game.Key">
     <div class="overlay" v-if="hover">
       <button v-if="galleryType === 'myGallery'" @click="removeGameFromDashboard(game)">Remove</button>
-      <button v-if="galleryType === 'globalGallery'" @click="addGametoDashboard(game)">Add</button>
+      <div v-if="galleryType === 'globalGallery'">
+        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button>
+        <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
+      </div>
     </div>
   </li>
 </template>
@@ -50,8 +53,8 @@ export default {
   },
 
   methods: {
-    addGametoDashboard(game) {
-      this.$emit('add-game-to-dashboard', game)
+    addGametoDashboard(game, type) {
+      this.$emit('add-game-to-dashboard', game, type)
     },
     removeGameFromDashboard(game) {
       this.$emit('remove-game-from-dashboard', game)
