@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="shelve" class="flex flex-col">
+    <div id="shelve" class="flex flex-col" v-if="myGallery.length > 0">
       <span>Games I want to play...</span>
       <ul class="shelve-row">
         <GameImage

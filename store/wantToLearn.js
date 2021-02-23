@@ -1,5 +1,5 @@
 export const state = () => ({
-  myGallery: [{asd: 'asd'}]
+  myGallery: []
 })
 
 export const mutations = {

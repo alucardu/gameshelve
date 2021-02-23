@@ -27,6 +27,10 @@
       <div id="someGallery">
         <MyGallery />
         <WantToLearn />
+        <div class="legend" v-if="wantToLearn.length > 0 || wantToPlay.length > 0">
+          <school-icon /> Can teach
+          <headset-icon /> Voice is required
+        </div>
       </div>
       <ExportShelve />
     </div>
@@ -34,14 +38,28 @@
 </template>
 
 <script>
+import SchoolIcon from 'vue-material-design-icons/School.vue';
+import HeadsetIcon from 'vue-material-design-icons/Headset.vue';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomePage',
+  components: {
+    SchoolIcon,
+    HeadsetIcon
+  },
   data() {
     return {
       showGlobalGallery: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      wantToPlay: 'myGallery/getGallery',
+      wantToLearn: 'wantToLearn/getGallery',
+    })
   }
+
 }
 </script>
 
@@ -87,5 +105,10 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.legend {
+  background: #000;
+  color: #fff;
 }
 </style>
