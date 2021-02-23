@@ -30,7 +30,7 @@
           name="drone"
           value="myGallery"
           v-model="gameForm.type"
-          @click="toggleButton(gameName)"
+          @click="toggleButton()"
         />
       </label>
       <label>
@@ -40,7 +40,7 @@
           name="drone"
           value="wantToLearn"
           v-model="gameForm.type"
-          @click="toggleButton(gameName)"
+          @click="toggleButton()"
         />
       </label>
       <div v-if="(!$v.gameForm.type.required)">
@@ -117,6 +117,7 @@ export default {
     toggleButton: debounce(function () {
       if (this.checkIfGameIsDuplicate(this.gallery, this.gameForm.gameName)) {
         console.log('game already exists')
+        this.uploadDisabled = true
       } else {
         this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
       }
@@ -134,7 +135,7 @@ export default {
       const upload = new AWS.S3.ManagedUpload({
         params: {
           Bucket: 'gamesnap',
-          Key: this.gameName + this.fileExtension,
+          Key: this.gameForm.gameName + this.fileExtension,
           Body: this.file
         }
       })
@@ -156,12 +157,12 @@ export default {
       localforage.getItem(this.gameForm.type).then((value) => {
         const myArray = value || []
         myArray.push({
-          Key: this.gameName + this.fileExtension,
+          Key: this.gameForm.gameName + this.fileExtension,
           shelve: this.gameForm.type
         })
         localforage.setItem(this.gameForm.type, myArray)
         this.$refs.pond.removeFiles()
-        this.gameName = ''
+        this.gameForm.gameName = ''
         document.getElementById("myForm").reset()
       }).catch(function(err) {
         console.log(err);
