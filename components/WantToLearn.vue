@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="wantToLearn" class="flex flex-col">
+    <div id="wantToLearn" class="flex flex-col" v-if="myGallery.length > 0">
       <span>Games I want to learn...</span>
       <ul class="shelve-row">
         <GameImage
@@ -13,10 +13,6 @@
         />
         <li />
       </ul>
-      <div class="legend">
-        <school-icon /> Can teach
-        <headset-icon /> Voice is required
-      </div>
     </div>
   </div>
 </template>
@@ -92,7 +88,6 @@ export default {
 <style lang="scss">
 #wantToLearn {
   color: white;
-  margin-bottom: 12px;
   background: black;
 }
 
