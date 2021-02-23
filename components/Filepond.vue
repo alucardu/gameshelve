@@ -8,7 +8,7 @@
       @addfile="setFile"
       @removefile="toggleButton()"
     />
-    <form id="myForm">
+    <form id="myForm" @submit.prevent>
       <label>
         <input
           type="text"
@@ -144,7 +144,7 @@ export default {
       promise.then(
         (data) => {
           this.addImageToGallery()
-          this.$store.dispatch(this.type + '/imageAdded', data)
+          this.$store.dispatch(this.gameForm.type + '/imageAdded', data)
         },
         (err) => {
           console.log("There was an error uploading your photo: ", err);
@@ -153,13 +153,13 @@ export default {
     },
 
     addImageToGallery () {
-      localforage.getItem(this.type).then((value) => {
+      localforage.getItem(this.gameForm.type).then((value) => {
         const myArray = value || []
         myArray.push({
           Key: this.gameName + this.fileExtension,
-          shelve: this.type
+          shelve: this.gameForm.type
         })
-        localforage.setItem(this.type, myArray)
+        localforage.setItem(this.gameForm.type, myArray)
         this.$refs.pond.removeFiles()
         this.gameName = ''
         document.getElementById("myForm").reset()
