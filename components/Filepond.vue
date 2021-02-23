@@ -49,7 +49,7 @@
       <button
         @click="upload()"
         class="button--grey"
-        :disabled="uploadDisabled"
+        :disabled="uploadDisabled || $v.gameForm.$invalid"
       >
         Upload
       </button>
@@ -114,20 +114,11 @@ export default {
       this.toggleButton()
     },
 
-    toggleButton: debounce(function (gameName) {
-      if (this.checkIfGameIsDuplicate(this.gallery, gameName)) {
+    toggleButton: debounce(function () {
+      if (this.checkIfGameIsDuplicate(this.gallery, this.gameForm.gameName)) {
         console.log('game already exists')
-        this.uploadDisabled = true
       } else {
-        if (gameName && gameName.length > 3) {
-          if (this.type) {
-            this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
-          } else {
-            console.log('select a type')
-          }
-        } else {
-          this.uploadDisabled = true
-        }
+        this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
       }
 
     }, 100),
