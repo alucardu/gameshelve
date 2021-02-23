@@ -8,10 +8,15 @@
           :key="n"
           :game="game"
           v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
-          galleryType="myGallery"
+          v-on:remove-icon-from-game="removeIconFromGame"
+          galleryType="wantToLearn"
         />
         <li />
       </ul>
+      <div class="legend">
+        <school-icon /> Can teach
+        <headset-icon /> Voice is required
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +25,15 @@
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
 
+import SchoolIcon from 'vue-material-design-icons/School.vue';
+import HeadsetIcon from 'vue-material-design-icons/Headset.vue';
+
 export default {
+  components: {
+    SchoolIcon,
+    HeadsetIcon
+  },
+
   data() {
     return {
       myGallery: []
@@ -59,6 +72,19 @@ export default {
         }
       })
     },
+
+    removeIconFromGame(...args) {
+      const [game, icon] = args
+      localforage.getItem('wantToLearn').then((value) => {
+        value.forEach((item, index) => {
+          if (item.Key === game.Key) {
+            value[index][icon] = false
+          }
+        })
+        localforage.setItem('wantToLearn', value)
+        this.$store.dispatch('wantToLearn/initialGallery', value)
+      })
+    }
   }
 }
 </script>
@@ -98,6 +124,15 @@ img {
   min-width: 100%;
   object-fit: cover;
   vertical-align: bottom;
+}
+
+.legend {
+  padding: 8px;
+  display: flex;
+  margin-bottom: 8px;
+  span {
+    margin: 0 8px;
+  }
 }
 
 </style>

@@ -164,7 +164,10 @@ export default {
     addImageToGallery () {
       localforage.getItem(this.type).then((value) => {
         const myArray = value || []
-        myArray.push({ Key: this.gameName + this.fileExtension })
+        myArray.push({
+          Key: this.gameName + this.fileExtension,
+          shelve: this.type
+        })
         localforage.setItem(this.type, myArray)
         this.$refs.pond.removeFiles()
         this.gameName = ''

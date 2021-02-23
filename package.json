@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "nuxt": "^2.14.12",
     "vue-filepond": "^6.0.0",
+    "vue-material-design-icons": "^4.11.0",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
