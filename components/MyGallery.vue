@@ -8,6 +8,7 @@
           :key="n"
           :game="game"
           v-on:remove-game-from-dashboard="removeGameFromDashboard(game)"
+          v-on:remove-icon-from-game="removeIconFromGame"
           galleryType="myGallery"
         />
         <li />
@@ -59,6 +60,19 @@ export default {
         }
       })
     },
+
+    removeIconFromGame(...args) {
+      const [game, icon] = args
+      localforage.getItem('myGallery').then((value) => {
+        value.forEach((item, index) => {
+          if (item.Key === game.Key) {
+            value[index][icon] = false
+          }
+        })
+        localforage.setItem('myGallery', value)
+        this.$store.dispatch('myGallery/initialGallery', value)
+      })
+    }
   }
 }
 </script>

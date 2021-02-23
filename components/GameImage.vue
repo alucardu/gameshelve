@@ -5,10 +5,15 @@
     class="c-gameImage"
   >
     <img :src="baseUrl + game.Key">
+    <div v-if="game.mic || game.teach" class="icon_overlay">
+      <headset-icon span v-if="game.mic" @click="removeIcon(game, 'mic')"/>
+      <school-icon span v-if="game.teach" @click="removeIcon(game, 'teach')"/>
+    </div>
     <div class="overlay" v-if="hover">
-      <button v-if="galleryType === 'myGallery'" @click="removeGameFromDashboard(game)">Remove</button>
+      <delete-icon v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'" @click="removeGameFromDashboard(game)" title="Remove game from shelve" />
+      <AddIconToGame  v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'"  :galleryType="galleryType" :game="game" />
       <div v-if="galleryType === 'globalGallery'">
-        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button>
+        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button><br>
         <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
       </div>
     </div>
@@ -18,7 +23,16 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import SchoolIcon from 'vue-material-design-icons/School.vue';
+import HeadsetIcon from 'vue-material-design-icons/Headset.vue';
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+
 export default {
+  components: {
+    SchoolIcon,
+    HeadsetIcon,
+    DeleteIcon
+  },
   props: {
     galleryType: {
       type: String,
@@ -58,6 +72,9 @@ export default {
     },
     removeGameFromDashboard(game) {
       this.$emit('remove-game-from-dashboard', game)
+    },
+    removeIcon(game, icon) {
+      this.$emit('remove-icon-from-game', game, icon)
     }
   }
 
@@ -76,7 +93,31 @@ export default {
 // }
 .overlay {
   position: absolute;
+  padding: 8px;
   top: 0;
   left: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  span {
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+}
+
+.icon_overlay {
+  position: absolute;
+  padding: 8px;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.4);
+  span {
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
 }
 </style>

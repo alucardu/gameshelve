@@ -71,7 +71,10 @@ export default {
 
             if (!this.checkIfGameIsDuplicate(myArray, game)) {
               this.$store.dispatch(type + '/imageAdded', game)
-              myArray.push({ Key: game.Key })
+              myArray.push({
+                Key: game.Key,
+                shelve: type
+              })
               localforage.setItem(type, myArray)
             } else {
               console.log('game already added')
