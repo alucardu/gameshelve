@@ -32,7 +32,11 @@ export default {
         let wiebe = null
         value.forEach((item, index) => {
           if (item.Key === this.game.Key) {
-            value[index][type] = true
+            if (!value[index][type]) {
+              value[index][type] = true
+            } else {
+              this.$emit('remove-icon-from-game', this.game, type)
+            }
             wiebe = index
           }
         })

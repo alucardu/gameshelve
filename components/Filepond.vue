@@ -1,54 +1,58 @@
 <template>
-  <div>
+  <div class="c-filepond">
     <file-pond
       ref="pond"
       label-idle="Drop file here..."
       v-bind:allow-multiple="false"
       accepted-file-types="image/jpeg, image/png"
       @addfile="setFile"
-      @removefile="toggleButton()"
+      @removefile="removeFile()"
     />
-    <form id="myForm" @submit.prevent>
+    <form class="c-filepond__form" @submit.prevent>
       <label>
         <input
+          class="input"
           type="text"
           placeholder="name of the game"
           v-on:keyup='toggleButton($event.target.value)'
           v-model="$v.gameForm.gameName.$model"
-          :disabled="file ? false : true"
-        /><br>
-        <br>
-        <div v-if="($v.gameForm.gameName.$error)">
+          :disabled="uploadDisabled"
+        />
+        <div class="formError" v-if="$v.gameForm.gameName.$error && !uploadDisabled">
           <span v-if="!$v.gameForm.gameName.required">A name is required to upload the file.</span>
           <span v-if="!$v.gameForm.gameName.minLength">Name has to be more than 3 characters long.</span>
         </div>
       </label>
-      <label>
-        Games I want to play:
-        <input
-          type="radio"
-          name="drone"
-          value="myGallery"
-          v-model="gameForm.type"
-          @click="toggleButton()"
-        />
-      </label>
-      <label>
-        Games I want to learn:
-        <input
-          type="radio"
-          name="drone"
-          value="wantToLearn"
-          v-model="gameForm.type"
-          @click="toggleButton()"
-        />
-      </label>
-      <div v-if="(!$v.gameForm.type.required)">
-        Please select a type
-      </div>
+      <fieldset class="flex flex-col">
+        <label>
+          <input
+            type="radio"
+            name="drone"
+            value="myGallery"
+            v-model="gameForm.type"
+            :disabled="uploadDisabled"
+            @click="toggleButton()"
+          />
+          Game I want to play
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="drone"
+            value="wantToLearn"
+            v-model="gameForm.type"
+            :disabled="uploadDisabled"
+            @click="toggleButton()"
+          />
+          Game I want to learn
+        </label>
+        <span class="formError" v-if="!uploadDisabled && !$v.gameForm.type.required">
+          Please select a type
+        </span>
+      </fieldset>
       <button
         @click="upload()"
-        class="button--grey"
+        class="button"
         :disabled="uploadDisabled || $v.gameForm.$invalid"
       >
         Upload
@@ -108,6 +112,11 @@ export default {
     }
   },
   methods: {
+    removeFile (error, file) {
+      this.gameForm.gameName = ''
+      this.uploadDisabled = true
+      document.getElementsByClassName("c-filepond__form")[0].reset()
+    },
     setFile (error, file) {
       this.fileExtension = '.' +  file.fileExtension
       this.file = this.$refs.pond.getFile().file
@@ -163,7 +172,7 @@ export default {
         localforage.setItem(this.gameForm.type, myArray)
         this.$refs.pond.removeFiles()
         this.gameForm.gameName = ''
-        document.getElementById("myForm").reset()
+        document.getElementsByClassName("c-filepond__form")[0].reset()
       }).catch(function(err) {
         console.log(err);
       });
@@ -193,16 +202,34 @@ export default {
 </script>
 
 <style lang="scss">
-input[type="text"]:disabled {
-  background: red;
+.c-filepond {
+  @apply mt-4;
+
+  .filepond--root {
+    height: 20rem;
+  }
+  .filepond--drop-label {
+    height: 100%;
+  }
+  @apply flex;
+  .filepond--wrapper {
+    @apply w-2/4 mr-4;
+  }
+  &__form {
+    @apply w-2/4;
+  }
 }
-button:disabled,
-button[disabled] {
-  color: red
+
+button {
+  @apply m-0;
 }
-input {
-  background: grey;
-  color: white;
-  padding: 12px;
-}
+
+// input[type="text"]:disabled {
+//   background: red;
+// }
+// input {
+//   background: grey;
+//   color: white;
+//   padding: 12px;
+// }
 </style>

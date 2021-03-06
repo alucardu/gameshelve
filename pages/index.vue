@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div>
+  <div class="flex justify-center">
+    <div class="p-base">
       <div class="links">
         <a
           @click="showGlobalGallery = !showGlobalGallery"
@@ -21,7 +21,6 @@
           Logout
         </a>
       </div>
-      Logged user: {{ $auth.user ? $auth.user.given_name : '' }}<br>
       <GlobalGallery v-if="showGlobalGallery" />
       <Filepond />
       <div id="someGallery">
@@ -63,7 +62,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.p-base {
+  width: 1024px;
+}
 /* Sample `apply` at-rules with Tailwind CSS
 .container {
 @apply min-h-screen flex justify-center items-center text-center mx-auto;
@@ -110,5 +112,16 @@ export default {
 .legend {
   background: #000;
   color: #fff;
+}
+
+.input, .button {
+  @apply w-full bg-blue-500 text-white p-4 rounded-md;
+  &[disabled] {
+    @apply opacity-50;
+  }
+}
+
+.formError {
+  @apply text-red-500;
 }
 </style>
