@@ -5,9 +5,9 @@
       v-on:keyup='fetchGames($event.target.value)'
       v-model="$v.searchQuery.$model"
     />
-    <div v-if="searchQuery.length > 0 && $v.searchQuery.$error" class="text-white">
-      Your searchquery has to be at least 4 characters long
-    </div>
+    <span v-if="searchQuery.length > 0 && !$v.searchQuery.minLength" class="text-white">Your searchquery has to be at least 4 characters long</span>
+    <span v-if="searchQuery.length > 0 && !$v.searchQuery.alpha" class="text-white">Your searchquery has to be at least 4 characters long and not contain spaces numbers or symbols</span>
+
     <ul>
       <GameImage
         v-for="(game, n) of gallery"
@@ -26,7 +26,8 @@ import listImages from '~/mixins/listImages.js'
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
 import { debounce } from 'lodash';
-import { required, minLength } from 'vuelidate/lib/validators'
+
+import { required, minLength, alpha } from 'vuelidate/lib/validators'
 
 export default {
   name: 'GlobalGallery',
@@ -42,7 +43,7 @@ export default {
   },
 
   validations: {
-    searchQuery: { required, minLength: minLength(4) }
+    searchQuery: { required, minLength: minLength(4), alpha }
   },
 
   computed: {
