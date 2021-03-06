@@ -20,6 +20,7 @@
         />
         <div class="formError" v-if="$v.gameForm.gameName.$error && !uploadDisabled">
           <span v-if="!$v.gameForm.gameName.required">A name is required to upload the file.</span>
+          <span v-if="!$v.gameForm.gameName.alpha">The name can only be a single word (no spaces or numbers or symbols)</span>
           <span v-if="!$v.gameForm.gameName.minLength">Name has to be more than 3 characters long.</span>
         </div>
       </label>
@@ -73,7 +74,7 @@ import { debounce } from 'lodash';
 import { mapGetters } from 'vuex';
 import listImages from '~/mixins/listImages.js';
 
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, alpha } from 'vuelidate/lib/validators'
 
 AWS.config.update({
   credentials: new AWS.CognitoIdentityCredentials({
@@ -107,7 +108,7 @@ export default {
 
   validations: {
     gameForm: {
-      gameName: { required, minLength: minLength(4) },
+      gameName: { required, minLength: minLength(4), alpha },
       type: { required }
     }
   },
