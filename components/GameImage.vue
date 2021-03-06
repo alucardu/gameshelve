@@ -23,7 +23,7 @@
         :galleryType="galleryType" :game="game"
       />
 
-      <div v-if="galleryType === 'globalGallery'">
+      <div v-if="galleryType === 'globalGallery'" class="c-gameImage__add-game">
         <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button><br>
         <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
       </div>
@@ -95,6 +95,10 @@ export default {
 <style lang="scss">
 .c-gameImage {
   @apply rounded-md overflow-hidden;
+
+  &__add-game {
+    @apply bg-black text-white absolute inset-0 h-full w-full bg-opacity-50 p-4;
+  }
 }
 
 .overlay {
@@ -103,6 +107,7 @@ export default {
   top: 0;
   left: 0;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   span {
