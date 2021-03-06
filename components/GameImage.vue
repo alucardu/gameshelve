@@ -93,15 +93,10 @@ export default {
 </script>
 
 <style lang="scss">
-// .c-gameImage {
-//   position: relative;
-//   img {
-//     flex: auto;
-//     height: 200px;
-//     margin: 0 8px 8px 0; /* Some gutter */
-//   }
-//   /* max-width: 20%; */
-// }
+.c-gameImage {
+  @apply rounded-md overflow-hidden;
+}
+
 .overlay {
   position: absolute;
   padding: 8px;

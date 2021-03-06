@@ -16,13 +16,9 @@ export default {
 
       domtoimage.toPng(document.getElementById('someGallery'), options)
         .then(blob => {
-          saveAs(blob, 'my-node.png');
+          saveAs(blob, 'my-gameshelve.png');
         });
     }
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

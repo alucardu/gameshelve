@@ -27,8 +27,8 @@
         <MyGallery />
         <WantToLearn />
         <div class="legend" v-if="wantToLearn.length > 0 || wantToPlay.length > 0">
-          <school-icon /> Can teach
-          <headset-icon /> Voice is required
+          <span class="flex mr-3"><school-icon class="mr-1"/>Can teach</span>
+          <span class="flex mr-3"><headset-icon class="mr-1"/>Voice is required</span>
         </div>
       </div>
       <ExportShelve />
@@ -71,6 +71,10 @@ export default {
 </script>
 
 <style lang="scss">
+#someGallery {
+  @apply inline-block;
+}
+
 .p-base {
   width: 1024px;
 }
@@ -118,8 +122,9 @@ export default {
 }
 
 .legend {
-  background: #000;
-  color: #fff;
+  @apply bg-gray-900 text-white text-lg flex px-2 py-3;
+
+  font-family: 'Crimson Pro', serif;
 }
 
 .input, .button {

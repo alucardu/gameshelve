@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div id="shelve" class="flex flex-col" v-if="myGallery.length > 0">
-      <span>Games I want to play...</span>
+  <div class="c-myGallery">
+    <div class="c-myGallery__shelve" v-if="myGallery.length > 0">
+      <span class="c-myGallery__title">Games I would love to <span class="text-blue-400">play</span></span>
       <ul class="shelve-row">
         <GameImage
           v-for="(game, n) of myGallery"
@@ -20,6 +20,7 @@
 <script>
 import localforage from 'localforage';
 import { mapGetters } from 'vuex'
+
 
 export default {
   data() {
@@ -78,24 +79,25 @@ export default {
 </script>
 
 <style lang="scss">
-#shelve {
-  color: white;
-  margin-top: 12px;
-  background: black;
+.c-myGallery {
+  @apply text-white;
+
+  &__shelve {
+    @apply px-2 mt-3 bg-gray-900;
+  }
+
+  &__title {
+    @apply text-2xl py-1 inline-block;
+
+    font-family: 'Crimson Pro', serif;
+  }
 }
-// .shelve-row {
-//   display: flex;
-//   flex-flow: row wrap;
-//   width: 100%;
-// }
 
 ul {
-  display: flex;
-  flex-wrap: wrap;
+  @apply gap-2 flex flex-wrap;
 }
 
 li {
-  margin: 4px;
   height: 15vh;
   flex-grow: 1;
   position: relative;

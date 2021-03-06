@@ -18,6 +18,18 @@ export default {
     ]
   },
 
+  googleFonts: {
+    families: {
+      Roboto: true,
+      'Josefin+Sans': true,
+      Lato: [100, 300],
+      Raleway: {
+        wght: [100, 400],
+        ital: [100]
+      },
+    }
+  },
+
   env: {
     baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
     identityPoolId: process.env.NUXT_ENV_IDENTITY_POOL_ID || process.env.IDENTITY_POOL_ID
@@ -50,6 +62,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/google-fonts'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
