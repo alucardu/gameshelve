@@ -52,7 +52,7 @@ html {
   color: #35495e;
   text-decoration: none;
   padding: 10px 30px;
-  margin-left: 15px;
+  margin-right: 16px;
 }
 
 .button--grey:hover {

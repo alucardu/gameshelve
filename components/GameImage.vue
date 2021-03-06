@@ -6,12 +6,23 @@
   >
     <img :src="baseUrl + game.Key">
     <div v-if="game.mic || game.teach" class="icon_overlay">
-      <headset-icon span v-if="game.mic" @click="removeIcon(game, 'mic')"/>
-      <school-icon span v-if="game.teach" @click="removeIcon(game, 'teach')"/>
+      <headset-icon span v-if="game.mic" />
+      <school-icon span v-if="game.teach" />
     </div>
     <div class="overlay" v-if="hover">
-      <delete-icon v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'" @click="removeGameFromDashboard(game)" title="Remove game from shelve" />
-      <AddIconToGame  v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'"  :galleryType="galleryType" :game="game" />
+
+      <delete-icon
+        v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'"
+        @click="removeGameFromDashboard(game)"
+        title="Remove game from shelve"
+      />
+
+      <AddIconToGame
+        v-on:remove-icon-from-game="removeIcon"
+        v-if="galleryType === 'myGallery' || galleryType === 'wantToLearn'"
+        :galleryType="galleryType" :game="game"
+      />
+
       <div v-if="galleryType === 'globalGallery'">
         <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button><br>
         <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
