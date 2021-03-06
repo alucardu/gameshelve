@@ -1,20 +1,23 @@
 <template>
-  <div>
+  <div class="c-globalGallery">
     <input
       type="text"
       v-on:keyup='fetchGames($event.target.value)'
       v-model="$v.searchQuery.$model"
     />
-    <div v-if="($v.searchQuery.$error)">
+    <div v-if="searchQuery.length > 0 && $v.searchQuery.$error" class="text-white">
       Your searchquery has to be at least 4 characters long
     </div>
-    <GameImage
-      v-for="(game, n) of filteredGallery"
-      :key="n"
-      :game="game"
-      v-on:add-game-to-dashboard="addGametoDashboard"
-      galleryType="globalGallery"
-    />
+    <ul>
+      <GameImage
+        v-for="(game, n) of gallery"
+        :key="n"
+        :game="game"
+        v-on:add-game-to-dashboard="addGametoDashboard"
+        galleryType="globalGallery"
+      />
+      <li />
+    </ul>
   </div>
 </template>
 
@@ -28,6 +31,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'GlobalGallery',
   mixins: [listImages ],
+
   data() {
     return {
       searchQuery: '',
@@ -59,6 +63,7 @@ export default {
     addGametoDashboard(...args) {
       const [game, type] = args
       this.addImageToGallery(game, type)
+      this.$emit('game-added')
     },
 
     addImageToGallery (game, type) {
@@ -95,13 +100,13 @@ export default {
 
     fetchGames: debounce(function () {
       if (this.searchQuery.length <= 0) {
-        this.filteredGallery = []
+        this.gallery = this.GalleryStore
         return
       }
 
       if (this.searchQuery.length > 3) {
-        this.filteredGallery = this.gallery.map((item) => item)
-          .filter((item) => item.Key.includes(this.searchQuery))
+        this.gallery = this.GalleryStore.map((item) => item)
+          .filter((item) => item.Key.toUpperCase().includes(this.searchQuery.toUpperCase()))
       }
     }, 500),
 
@@ -119,9 +124,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 input {
   background: grey;
   color: white;
+}
+
+.c-globalGallery {
+  @apply bg-black absolute z-10 w-full inset-0 mt-16;
+
+  height: calc(100% - 64px)
 }
 </style>
