@@ -18,11 +18,20 @@
           v-model="$v.gameForm.gameName.$model"
           :disabled="uploadDisabled"
         />
-        <div class="formError" v-if="$v.gameForm.gameName.$error && !uploadDisabled">
-          <span v-if="!$v.gameForm.gameName.required">A name is required to upload the file.</span>
+        <div class="formError">
+          <span v-if="!$v.gameForm.gameName.required && !uploadDisabled">A name is required to upload the file.</span>
           <span v-if="!$v.gameForm.gameName.alpha">The name can only be a single word (no spaces or numbers or symbols)</span>
           <span v-if="!$v.gameForm.gameName.minLength">Name has to be more than 3 characters long.</span>
+          <span v-if="!gameIsUnique">A game with that name already exists.</span>
         </div>
+        <ul v-if="game">
+          <GameImage
+            :game="game"
+            v-on:add-game-to-dashboard="addGametoDashboard"
+            galleryType="globalGallery"
+          />
+          <li />
+        </ul>
       </label>
       <fieldset class="flex flex-col">
         <label>
@@ -47,9 +56,6 @@
           />
           Game I want to learn
         </label>
-        <span class="formError" v-if="!uploadDisabled && !$v.gameForm.type.required">
-          Please select a type
-        </span>
       </fieldset>
       <button
         @click="upload()"
@@ -92,6 +98,8 @@ export default {
   mixins: [listImages ],
   data() {
     return {
+      game: null,
+      gameIsUnique: true,
       gameForm: {
         gameName: '',
         type: undefined
@@ -113,6 +121,42 @@ export default {
     }
   },
   methods: {
+    addGametoDashboard(...args) {
+      const [game, type] = args
+      this.gameForm.type = type
+      console.log(type)
+      if (this.checkIfGameIsDuplicate(this.whatStore(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
+        console.log('game already added to shelve')
+        this.game = null
+      } else {
+        if (this.checkIfGameIsDuplicate(this.returnOpositeType(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
+          console.log('game is already added')
+          this.game = null
+        } else {
+          this.addImageToGallery()
+          this.$store.dispatch(this.gameForm.type + '/imageAdded', game)
+          this.uploadDisabled = true
+          this.gameIsUnique = true
+        }
+      }
+    },
+
+    whatStore(type) {
+      switch (type) {
+        case 'myGallery':
+          return this.wantToPlayStore
+        case 'wantToLearn':
+          return this.wantToLearnStore
+      }
+    },
+
+    returnOpositeType (type) {
+      switch (type) {
+        case 'myGallery': return this.wantToLearnStore
+        case 'wantToLearn': return this.wantToPlayStore
+      }
+    },
+
     removeFile (error, file) {
       this.gameForm.gameName = ''
       this.uploadDisabled = true
@@ -126,9 +170,10 @@ export default {
 
     toggleButton: debounce(function () {
       if (this.checkIfGameIsDuplicate(this.gallery, this.gameForm.gameName)) {
-        console.log('game already exists')
+        this.gameIsUnique = false
         this.uploadDisabled = true
       } else {
+        this.gameIsUnique = true
         this.uploadDisabled = this.$refs.pond.getFiles().length > 0 ? false : true
       }
 
@@ -136,7 +181,11 @@ export default {
 
     checkIfGameIsDuplicate (games, game) {
       for (const item of games) {
-        if (item.Key.substr(0, item.Key.lastIndexOf(".")) === game) return true
+        if (item.Key.toUpperCase().substr(0, item.Key.lastIndexOf(".")) === game.toUpperCase()) {
+          console.log('equal')
+          this.game = item
+          return true
+        }
       }
       return false
     },
@@ -173,6 +222,7 @@ export default {
         localforage.setItem(this.gameForm.type, myArray)
         this.$refs.pond.removeFiles()
         this.gameForm.gameName = ''
+        this.game = null
         document.getElementsByClassName("c-filepond__form")[0].reset()
       }).catch(function(err) {
         console.log(err);
@@ -183,6 +233,8 @@ export default {
   computed: {
     ...mapGetters({
       GalleryStore: 'gallery/getGallery',
+      wantToPlayStore: 'myGallery/getGallery',
+      wantToLearnStore: 'wantToLearn/getGallery',
     })
   },
 

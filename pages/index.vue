@@ -9,8 +9,13 @@
           Show gallery
         </a>
       </div>
-      <GlobalGallery v-if="showGlobalGallery" v-on:game-added="closeGlobalGallery" />
-      <Filepond />
+      <GlobalGallery
+        v-if="showGlobalGallery"
+        v-on:game-added="closeGlobalGallery"
+      />
+      <Filepond
+        v-on:game-added-from-filepond="asd"
+      />
       <ExportShelve />
       <div id="someGallery">
         <MyGallery />
@@ -51,6 +56,10 @@ export default {
   },
 
   methods: {
+    asd () {
+      console.log('asd')
+    },
+
     closeGlobalGallery() {
       this.showGlobalGallery = false
     }
