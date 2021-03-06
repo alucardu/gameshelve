@@ -20,7 +20,7 @@ export default {
 
   env: {
     baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
-    identityPoolId: process.env.IDENTITY_POOL_ID
+    identityPoolId: process.env.NUXT_ENV_IDENTITY_POOL_ID || process.env.IDENTITY_POOL_ID
   },
 
   auth: {
