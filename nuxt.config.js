@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'gamesnap',
+    title: 'gameshelve',
     htmlAttrs: {
       lang: 'en'
     },
@@ -31,7 +31,7 @@ export default {
   },
 
   env: {
-    baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
+    baseUrl: 'https://gameshelve.s3.eu-central-1.amazonaws.com/',
     identityPoolId: process.env.NUXT_ENV_IDENTITY_POOL_ID || process.env.IDENTITY_POOL_ID
   },
 

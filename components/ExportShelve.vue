@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="toImage()">Export shelve</button><br>
+    <button @click="toImage()" class="button">Export shelve</button><br>
     <div id="here-appear-theimages" />
   </div>
 </template>

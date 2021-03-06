@@ -38,7 +38,7 @@ export default {
       searchQuery: '',
       gallery: [],
       filteredGallery: [],
-      baseUrl: 'https://gamesnap.s3.eu-central-1.amazonaws.com/',
+      baseUrl: 'https://gameshelve.s3.eu-central-1.amazonaws.com/',
     }
   },
 

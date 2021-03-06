@@ -8,30 +8,19 @@
         >
           Show gallery
         </a>
-        <a
-          @click="$auth.loginWith('google')"
-          class="button--grey"
-        >
-          Login with Google
-        </a>
-        <a
-          @click="$auth.logout()"
-          class="button--grey"
-        >
-          Logout
-        </a>
       </div>
       <GlobalGallery v-if="showGlobalGallery" v-on:game-added="closeGlobalGallery" />
       <Filepond />
+      <ExportShelve />
       <div id="someGallery">
         <MyGallery />
         <WantToLearn />
         <div class="legend" v-if="wantToLearn.length > 0 || wantToPlay.length > 0">
           <span class="flex mr-3"><school-icon class="mr-1"/>Can teach</span>
           <span class="flex mr-3"><headset-icon class="mr-1"/>Voice is required</span>
+          <span class="ml-auto">create your own shelve @ <a href="https://gameshelve.com">gameshelve.com</a></span>
         </div>
       </div>
-      <ExportShelve />
     </div>
   </div>
 </template>
@@ -72,7 +61,7 @@ export default {
 
 <style lang="scss">
 #someGallery {
-  @apply inline-block;
+  @apply inline-block mb-4;
 }
 
 .p-base {
@@ -125,10 +114,15 @@ export default {
   @apply bg-gray-900 text-white text-lg flex px-2 py-3;
 
   font-family: 'Crimson Pro', serif;
+  a {
+    @apply text-blue-300 underline;
+  }
 }
 
-.input, .button {
+.input,
+.button {
   @apply w-full bg-blue-500 text-white p-4 rounded-md;
+
   &[disabled] {
     @apply opacity-50;
   }
