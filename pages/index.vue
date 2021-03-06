@@ -21,7 +21,7 @@
           Logout
         </a>
       </div>
-      <GlobalGallery v-if="showGlobalGallery" />
+      <GlobalGallery v-if="showGlobalGallery" v-on:game-added="closeGlobalGallery" />
       <Filepond />
       <div id="someGallery">
         <MyGallery />
@@ -47,16 +47,24 @@ export default {
     SchoolIcon,
     HeadsetIcon
   },
+
   data() {
     return {
       showGlobalGallery: false
     }
   },
+
   computed: {
     ...mapGetters({
       wantToPlay: 'myGallery/getGallery',
       wantToLearn: 'wantToLearn/getGallery',
     })
+  },
+
+  methods: {
+    closeGlobalGallery() {
+      this.showGlobalGallery = false
+    }
   }
 
 }
