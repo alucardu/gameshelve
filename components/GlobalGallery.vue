@@ -116,12 +116,24 @@ export default {
         case 'myGallery': return 'wantToLearn'
         case 'wantToLearn': return 'myGallery'
       }
+    },
+
+    sortArray (gallery) {
+      return gallery.sort(function(a, b) {
+        var textA = a.Key.toUpperCase();
+        var textB = b.Key.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
     }
   },
 
   mounted() {
-    this.GalleryStore.length === 0 ? this.listImages() : this.gallery = this.GalleryStore;
-  }
+    let x = []
+    this.GalleryStore.length === 0 ? this.listImages() : x = [...this.GalleryStore];
+    this.gallery = this.sortArray(x)
+  },
+
+
 }
 </script>
 
