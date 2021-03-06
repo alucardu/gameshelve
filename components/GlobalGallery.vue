@@ -1,20 +1,22 @@
 <template>
   <div>
-    <input
+    <!-- <input
       type="text"
       v-on:keyup='fetchGames($event.target.value)'
       v-model="$v.searchQuery.$model"
     />
     <div v-if="($v.searchQuery.$error)">
       Your searchquery has to be at least 4 characters long
-    </div>
-    <GameImage
-      v-for="(game, n) of filteredGallery"
-      :key="n"
-      :game="game"
-      v-on:add-game-to-dashboard="addGametoDashboard"
-      galleryType="globalGallery"
-    />
+    </div> -->
+    <ul class="c-globalGallery">
+      <GameImage
+        v-for="(game, n) of gallery"
+        :key="n"
+        :game="game"
+        v-on:add-game-to-dashboard="addGametoDashboard"
+        galleryType="globalGallery"
+      />
+    </ul>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'GlobalGallery',
   mixins: [listImages ],
+
   data() {
     return {
       searchQuery: '',
@@ -115,13 +118,17 @@ export default {
 
   mounted() {
     this.GalleryStore.length === 0 ? this.listImages() : this.gallery = this.GalleryStore;
+    console.log(this.gallery)
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 input {
   background: grey;
   color: white;
+}
+.c-globalGallery {
+  @apply bg-black;
 }
 </style>
