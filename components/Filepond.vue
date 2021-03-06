@@ -124,17 +124,19 @@ export default {
     addGametoDashboard(...args) {
       const [game, type] = args
       this.gameForm.type = type
-      console.log(type)
       if (this.checkIfGameIsDuplicate(this.whatStore(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
         console.log('game already added to shelve')
+        this.$refs.pond.removeFiles()
         this.game = null
       } else {
         if (this.checkIfGameIsDuplicate(this.returnOpositeType(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
           console.log('game is already added')
+          this.$refs.pond.removeFiles()
           this.game = null
         } else {
           this.addImageToGallery()
           this.$store.dispatch(this.gameForm.type + '/imageAdded', game)
+          this.$refs.pond.removeFiles()
           this.uploadDisabled = true
           this.gameIsUnique = true
         }
@@ -182,7 +184,6 @@ export default {
     checkIfGameIsDuplicate (games, game) {
       for (const item of games) {
         if (item.Key.toUpperCase().substr(0, item.Key.lastIndexOf(".")) === game.toUpperCase()) {
-          console.log('equal')
           this.game = item
           return true
         }
