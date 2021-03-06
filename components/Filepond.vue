@@ -77,7 +77,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 
 AWS.config.update({
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: process.env.IDENTITY_POOL_ID
+    IdentityPoolId: process.env.identityPoolId
   }),
   region: 'eu-central-1'
 });
