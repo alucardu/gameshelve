@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="toImage()">Export shelve</button><br>
+    <button @click="toImage()" class="button">Export shelve</button><br>
     <div id="here-appear-theimages" />
   </div>
 </template>
@@ -16,13 +16,9 @@ export default {
 
       domtoimage.toPng(document.getElementById('someGallery'), options)
         .then(blob => {
-          saveAs(blob, 'my-node.png');
+          saveAs(blob, 'my-gameshelve.png');
         });
     }
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

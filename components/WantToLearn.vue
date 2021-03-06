@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div id="wantToLearn" class="flex flex-col" v-if="myGallery.length > 0">
-      <span>Games I want to learn...</span>
+  <div class="c-wantToLearn">
+    <div class="c-wantToLearn__shelve" v-if="myGallery.length > 0">
+      <span class="c-wantToLearn__title">Games I would love to <span class="text-orange-400">learn</span></span>
       <ul class="shelve-row">
         <GameImage
           v-for="(game, n) of myGallery"
@@ -86,24 +86,25 @@ export default {
 </script>
 
 <style lang="scss">
-#wantToLearn {
-  color: white;
-  background: black;
+.c-wantToLearn {
+  @apply text-white;
+
+  &__shelve {
+    @apply px-2 bg-gray-900;
+  }
+
+  &__title {
+    @apply text-2xl py-1 inline-block;
+
+    font-family: 'Crimson Pro', serif;
+  }
 }
 
-// .shelve-row {
-//   display: flex;
-//   flex-flow: row wrap;
-//   width: 100%;
-// }
-
 ul {
-  display: flex;
-  flex-wrap: wrap;
+  @apply gap-2 flex flex-wrap;
 }
 
 li {
-  margin: 4px;
   height: 15vh;
   flex-grow: 1;
   position: relative;
@@ -119,15 +120,6 @@ img {
   min-width: 100%;
   object-fit: cover;
   vertical-align: bottom;
-}
-
-.legend {
-  padding: 8px;
-  display: flex;
-  margin-bottom: 8px;
-  span {
-    margin: 0 8px;
-  }
 }
 
 </style>

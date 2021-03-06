@@ -144,7 +144,7 @@ export default {
     upload () {
       const upload = new AWS.S3.ManagedUpload({
         params: {
-          Bucket: 'gamesnap',
+          Bucket: 'gameshelve',
           Key: this.gameForm.gameName + this.fileExtension,
           Body: this.file
         }
