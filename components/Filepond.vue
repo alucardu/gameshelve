@@ -125,12 +125,12 @@ export default {
       const [game, type] = args
       this.gameForm.type = type
       if (this.checkIfGameIsDuplicate(this.whatStore(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
-        this.$notifier.showMessage({ content: 'game already added to shelve', color: 'warning' })
+        this.$notifier.showMessage({ content: this.game.Key.substr(0, this.game.Key.lastIndexOf(".")) + ' has already added to shelve', color: 'warning' })
         this.$refs.pond.removeFiles()
         this.game = null
       } else {
         if (this.checkIfGameIsDuplicate(this.returnOpositeType(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
-          console.log('game is already added')
+          this.$notifier.showMessage({ content: this.game.Key.substr(0, this.game.Key.lastIndexOf(".")) + ' has already added to shelve', color: 'warning' })
           this.$refs.pond.removeFiles()
           this.game = null
         } else {
@@ -206,6 +206,7 @@ export default {
         (data) => {
           this.addImageToGallery()
           this.$store.dispatch(this.gameForm.type + '/imageAdded', data)
+          this.game = data
         },
         (err) => {
           console.log("There was an error uploading your photo: ", err);
@@ -221,6 +222,7 @@ export default {
           shelve: this.gameForm.type
         })
         localforage.setItem(this.gameForm.type, myArray)
+        this.$notifier.showMessage({ content: this.game.Key.substr(0, this.game.Key.lastIndexOf(".")) + ' has been added to shelve', color: 'success' })
         this.$refs.pond.removeFiles()
         this.gameForm.gameName = ''
         this.game = null

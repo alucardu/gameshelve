@@ -34,12 +34,12 @@ export default {
   },
 
   methods: {
-    sendEmail: (e) => {
+    sendEmail(e) {
       emailjs.sendForm('service_dfwr317', 'template_4no69ks', e.target, 'user_fF2Mt6e0k2OhPq2UN8uxx')
-        .then((result) => {
-            console.log('SUCCESS!', result.status, result.text);
-        }, (error) => {
-            console.log('FAILED...', error);
+        .then(() => {
+          this.$notifier.showMessage({ content: 'Your report has been send', color: 'success' })
+        }, () => {
+          this.$notifier.showMessage({ content: 'Something went wrong, contact the admin', color: 'warning' })
         });
     }
   }
