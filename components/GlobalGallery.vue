@@ -74,7 +74,7 @@ export default {
     addImageToGallery (game, type) {
       localforage.getItem(this.returnOpositeType(type)).then((value) => {
         if (this.checkIfGameIsDuplicate(value, game)) {
-          console.log('game already added to ' + this.returnOpositeType(type) + ' shelve')
+          this.$notifier.showMessage({ content: game.Key.substr(0, game.Key.lastIndexOf(".")) + ' has already added to shelve', color: 'warning' })
         } else {
           localforage.getItem(type).then((value) => {
             let myArray = value || []
@@ -86,8 +86,9 @@ export default {
                 shelve: type
               })
               localforage.setItem(type, myArray)
+              this.$notifier.showMessage({ content: game.Key.substr(0, game.Key.lastIndexOf(".")) + ' has been added to shelve', color: 'success' })
             } else {
-              console.log('game already added')
+              this.$notifier.showMessage({ content: game.Key.substr(0, game.Key.lastIndexOf(".")) + ' is already added to shelve', color: 'warning' })
             }
             }).catch(function(err) {
               console.log(err);

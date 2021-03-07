@@ -64,6 +64,7 @@ export default {
           tempArray.splice(index, 1)
           this.$store.dispatch('wantToLearn/imageRemoved', tempArray)
           localforage.setItem('wantToLearn', tempArray)
+          this.$notifier.showMessage({ content: game.Key.substr(0, game.Key.lastIndexOf(".")) + ' has been removed from the shelve', color: 'success' })
           return
         }
       })
