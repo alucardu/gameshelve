@@ -53,6 +53,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { mode: 'client', src: '~/plugins/vuelidate' },
+    { mode: 'client', src: '~/plugins/notifier.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -62,7 +63,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

@@ -125,7 +125,7 @@ export default {
       const [game, type] = args
       this.gameForm.type = type
       if (this.checkIfGameIsDuplicate(this.whatStore(type), game.Key.substring(0, game.Key.lastIndexOf('.')))) {
-        console.log('game already added to shelve')
+        this.$notifier.showMessage({ content: 'game already added to shelve', color: 'warning' })
         this.$refs.pond.removeFiles()
         this.game = null
       } else {
@@ -262,13 +262,16 @@ export default {
   .filepond--root {
     height: 20rem;
   }
+
   .filepond--drop-label {
     height: 100%;
   }
   @apply flex;
+
   .filepond--wrapper {
     @apply w-2/4 mr-4;
   }
+
   &__form {
     @apply w-2/4;
   }

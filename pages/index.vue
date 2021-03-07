@@ -26,6 +26,7 @@
           <span class="ml-auto">create your own shelve @ <a href="https://gameshelve.com">gameshelve.com</a></span>
         </div>
       </div>
+      <Snackbar />
     </div>
   </div>
 </template>
@@ -64,6 +65,7 @@ export default {
     closeGlobalGallery() {
       this.showGlobalGallery = false
     }
+
   },
 
   mounted () {
