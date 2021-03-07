@@ -1,6 +1,7 @@
 <template>
   <div class="flex justify-center">
     <div class="p-base">
+      <Disclaimer />
       <div class="links">
         <a
           @click="showGlobalGallery = !showGlobalGallery"
