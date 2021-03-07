@@ -33,6 +33,7 @@
 <script>
 import SchoolIcon from 'vue-material-design-icons/School.vue';
 import HeadsetIcon from 'vue-material-design-icons/Headset.vue';
+import localforage from 'localforage';
 import { mapGetters } from 'vuex'
 
 export default {
@@ -63,6 +64,16 @@ export default {
     closeGlobalGallery() {
       this.showGlobalGallery = false
     }
+  },
+
+  mounted () {
+    localforage.getItem('myGallery').then((value) => {
+      if (!value) localforage.setItem('myGallery', [])
+    })
+
+    localforage.getItem('wantToLearn').then((value) => {
+      if (!value) localforage.setItem('wantToLearn', [])
+    })
   }
 
 }
