@@ -95,7 +95,7 @@ export default {
 
 <style lang="scss">
 .c-gameImage {
-  @apply rounded-md overflow-hidden;
+  @apply rounded-md;
 
   &__add-game {
     @apply bg-black flex flex-col text-white absolute inset-0 h-full w-full bg-opacity-50 p-4 items-start;
