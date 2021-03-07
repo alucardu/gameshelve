@@ -146,6 +146,28 @@ export default {
 .c-globalGallery {
   @apply bg-black absolute z-10 w-full inset-0 mt-16 flex flex-col px-4;
 
-  height: calc(100% - 64px)
+  height: calc(100% - 64px);
+
+  ul {
+    @apply gap-2 flex flex-wrap;
+  }
+
+  .c-gameImage {
+    height: 15vh;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  li:last-child {
+    // There's no science in using "10" here. In all my testing, this delivered the best results.
+    flex-grow: 10;
+  }
+
+  img {
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+  }
 }
 </style>
