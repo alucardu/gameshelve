@@ -16,6 +16,7 @@
     "aws-sdk": "^2.847.0",
     "core-js": "^3.8.3",
     "dom-to-image": "^2.6.0",
+    "emailjs-com": "^2.6.4",
     "eslint": "^7.21.0",
     "file-saver": "^2.0.5",
     "filepond": "^4.25.1",

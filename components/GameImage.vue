@@ -24,8 +24,9 @@
       />
 
       <div v-if="galleryType === 'globalGallery'" class="c-gameImage__add-game">
-        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button><br>
+        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button>
         <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
+        <ReportGame :game="game" class="mt-auto" />
       </div>
     </div>
   </li>
@@ -97,7 +98,7 @@ export default {
   @apply rounded-md overflow-hidden;
 
   &__add-game {
-    @apply bg-black text-white absolute inset-0 h-full w-full bg-opacity-50 p-4;
+    @apply bg-black flex flex-col text-white absolute inset-0 h-full w-full bg-opacity-50 p-4 items-start;
   }
 }
 
