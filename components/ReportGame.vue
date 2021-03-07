@@ -1,7 +1,7 @@
 <template>
   <form class="c-reportGame contact-form" @submit.prevent="sendEmail">
     <input name="game_name" v-model="game.Key" class="hidden" />
-    <span @click="report = true">Send report</span>
+    <span @click="report = true">Report game: {{ game.Key.substr(0, game.Key.lastIndexOf(".")) }}</span>
     <div class="modal" v-if="report">
       <span>
         You can send a report to inform the admins that
@@ -10,7 +10,7 @@
           <li>: the name and image do not correlate.</li>
         </ul>
       </span>
-      <button class="mt-auto" type="submit">Report game: {{ game.Key.substr(0, game.Key.lastIndexOf(".")) }}</button>
+      <button class="mt-auto" type="submit">Send report, game: {{ game.Key.substr(0, game.Key.lastIndexOf(".")) }}</button>
     </div>
   </form>
 </template>
