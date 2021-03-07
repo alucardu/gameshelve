@@ -28,6 +28,11 @@
         <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
         <ReportGame :game="game" class="mt-auto" />
       </div>
+
+      <div v-if="galleryType === 'filePond'" class="c-gameImage__add-game">
+        <button @click="addGametoDashboard(game, 'myGallery')">Want to play</button>
+        <button @click="addGametoDashboard(game, 'wantToLearn')">Want to learn</button>
+      </div>
     </div>
   </li>
 </template>

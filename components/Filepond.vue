@@ -28,7 +28,7 @@
           <GameImage
             :game="game"
             v-on:add-game-to-dashboard="addGametoDashboard"
-            galleryType="globalGallery"
+            galleryType="filePond"
           />
           <li />
         </ul>
@@ -258,6 +258,28 @@ export default {
 <style lang="scss">
 .c-filepond {
   @apply mt-4;
+
+  ul {
+    @apply gap-2 flex flex-wrap;
+  }
+
+  .c-gameImage {
+    height: 15vh;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  li:last-child {
+    // There's no science in using "10" here. In all my testing, this delivered the best results.
+    flex-grow: 10;
+  }
+
+  img {
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+  }
 
   .filepond--root {
     height: 20rem;
