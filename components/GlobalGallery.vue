@@ -1,14 +1,18 @@
 <template>
   <div class="c-globalGallery">
-    <input
-      type="text"
-      v-on:keyup='fetchGames($event.target.value)'
-      v-model="$v.searchQuery.$model"
-    />
-    <span v-if="searchQuery.length > 0 && !$v.searchQuery.minLength" class="text-white">Your searchquery has to be at least 4 characters long</span>
-    <span v-if="searchQuery.length > 0 && !$v.searchQuery.alpha" class="text-white">Your searchquery has to be at least 4 characters long and not contain spaces numbers or symbols</span>
+    <label class="self-center m-4 w-2/3 inline-block">
+      <input
+        placeholder="Name of the game..."
+        class="input w-full"
+        type="text"
+        v-on:keyup='fetchGames($event.target.value)'
+        v-model="$v.searchQuery.$model"
+      />
+      <span v-if="searchQuery.length > 0 && !$v.searchQuery.minLength" class="text-white">Your searchquery has to be at least 4 characters long</span><br>
+      <span v-if="searchQuery.length > 0 && !$v.searchQuery.alpha" class="text-white">Searchquery can only contain alphabetical characters</span>
+    </label>
 
-    <ul>
+    <ul class="bg-black">
       <GameImage
         v-for="(game, n) of gallery"
         :key="n"
@@ -101,7 +105,8 @@ export default {
 
     fetchGames: debounce(function () {
       if (this.searchQuery.length <= 0) {
-        this.gallery = this.GalleryStore
+        const x = [...this.GalleryStore]
+        this.gallery = this.sortArray(x)
         return
       }
 
@@ -138,13 +143,8 @@ export default {
 </script>
 
 <style lang="scss">
-input {
-  background: grey;
-  color: white;
-}
-
 .c-globalGallery {
-  @apply bg-black absolute z-10 w-full inset-0 mt-16;
+  @apply bg-black absolute z-10 w-full inset-0 mt-16 flex flex-col px-4;
 
   height: calc(100% - 64px)
 }
