@@ -2,6 +2,7 @@
   <div class="flex justify-center">
     <div class="p-base">
       <Disclaimer />
+      <UserSuggestions />
       <div class="links">
         <a
           @click="showGlobalGallery = !showGlobalGallery"
